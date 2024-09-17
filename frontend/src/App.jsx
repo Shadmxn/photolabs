@@ -2,7 +2,6 @@ import React from 'react';
 import PhotoListItem from './components/PhotoListItem';
 import './App.scss';
 
-// Create an array of sample data for photos
 const photoDataArray = [
   {
     id: "1",
@@ -41,11 +40,7 @@ const App = () => (
     {photoDataArray.map(photo => (
       <PhotoListItem 
         key={photo.id} 
-        id={photo.id} 
-        location={photo.location} 
-        imageSource={photo.imageSource} 
-        username={photo.username} 
-        profile={photo.profile}
+        photo={photo} 
       />
     ))}
   </div>
