@@ -1,11 +1,11 @@
 import React from 'react';
-import PhotoList from './components/PhotoList';
-import TopicList from './components/TopicList'; // Import TopicList
+import TopNavigationBar from './components/TopNavigationBar'; // Import TopNavigationBar
+import PhotoList from './components/PhotoList'; // Import PhotoList
 import './App.scss';
 
 const App = () => (
   <div className="App">
-    <TopicList />  {/* Add TopicList */}
+    <TopNavigationBar /> {/* Add TopNavigationBar */}
     <PhotoList />
   </div>
 );
