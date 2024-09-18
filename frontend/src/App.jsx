@@ -1,12 +1,10 @@
 import React from 'react';
-import TopNavigationBar from './components/TopNavigationBar'; // Import TopNavigationBar
-import PhotoList from './components/PhotoList'; // Import PhotoList
-import './App.scss';
+import HomeRoute from './routes/HomeRoute'; // Ensure correct path
+import './App.scss'; // Import App styles
 
 const App = () => (
   <div className="App">
-    <TopNavigationBar /> {/* Add TopNavigationBar */}
-    <PhotoList />
+    <HomeRoute /> 
   </div>
 );
 
