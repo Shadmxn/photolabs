@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import PhotoListItem from './PhotoListItem';
+import '../styles/PhotoList.scss';
 
-import "../styles/PhotoList.scss";
-
+// Sample data used for rendering PhotoListItem components
 const sampleDataForPhotoList = [
   {
     id: "1",
@@ -56,12 +57,21 @@ const sampleDataForPhotoList = [
   },
 ];
 
-const PhotoList = () => {
-  return (
-    <ul className="photo-list">
-      {/* Insert React */}
-    </ul>
-  );
-};
+const PhotoList = () => (
+  <ul className="photo-list">
+    {sampleDataForPhotoList.map(photo => (
+      <li key={photo.id}>
+        <PhotoListItem 
+          photo={{
+            location: photo.location,
+            imageSource: photo.urls.regular,
+            username: photo.user.username,
+            profile: photo.user.profile,
+          }} 
+        />
+      </li>
+    ))}
+  </ul>
+);
 
 export default PhotoList;
