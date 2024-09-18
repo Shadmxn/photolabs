@@ -3,11 +3,11 @@ import TopNavigationBar from '../components/TopNavigationBar'; // Import TopNavi
 import PhotoList from '../components/PhotoList'; // Import PhotoList
 import '../styles/HomeRoute.scss'; // Import HomeRoute styles
 
-const HomeRoute = () => {
+const HomeRoute = ({ photos, topics }) => {
   return (
     <div className="home-route">
-      <TopNavigationBar /> {/* Add TopNavigationBar */}
-      <PhotoList /> {/* Add PhotoList */}
+      <TopNavigationBar topics={topics} /> {/* Pass topics to TopNavigationBar */}
+      <PhotoList photos={photos} /> {/* Pass photos to PhotoList */}
     </div>
   );
 };
