@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import "../styles/PhotoListItem.scss";
 import PhotoFavButton from './PhotoFavButton';
 
-const PhotoListItem = ({ photo, toggleFavorite }) => {
+const PhotoListItem = ({ photo, toggleFavorite, onPhotoClick }) => {
   const { id, location, imageSource, username, profile, isFavorite } = photo;
 
   return (
@@ -13,14 +13,20 @@ const PhotoListItem = ({ photo, toggleFavorite }) => {
         <h3 className="photo-list__user-info">{username}</h3>
       </div>
 
-      <img src={imageSource} alt={`From ${location.city}, ${location.country}`} className="photo-list__image" />
+      {/* Add onClick to the image */}
+      <img 
+        src={imageSource} 
+        alt={`From ${location.city}, ${location.country}`} 
+        className="photo-list__image" 
+        onClick={() => onPhotoClick(photo)} // Trigger the modal on click
+      />
 
       <p className="photo-list__user-location">{location.city}, {location.country}</p>
 
       <div className="photo-list__fav-container">
         <PhotoFavButton 
-          isFavorite={isFavorite}  // Keep this to manage the favorite state
-          toggleFavorite={() => toggleFavorite(id)}  // Pass toggleFavorite with photo id
+          isFavorite={isFavorite} 
+          toggleFavorite={() => toggleFavorite(id)} 
         />
       </div>
     </div>
@@ -40,6 +46,7 @@ PhotoListItem.propTypes = {
     isFavorite: PropTypes.bool.isRequired,
   }).isRequired,
   toggleFavorite: PropTypes.func.isRequired,
+  onPhotoClick: PropTypes.func.isRequired, // Ensure this prop is required
 };
 
 export default PhotoListItem;
