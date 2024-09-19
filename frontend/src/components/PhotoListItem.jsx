@@ -13,12 +13,11 @@ const PhotoListItem = ({ photo, toggleFavorite, onPhotoClick }) => {
         <h3 className="photo-list__user-info">{username}</h3>
       </div>
 
-      {/* Add onClick to the image */}
       <img 
         src={imageSource} 
         alt={`From ${location.city}, ${location.country}`} 
         className="photo-list__image" 
-        onClick={() => onPhotoClick(photo)} // Trigger the modal on click
+        onClick={() => onPhotoClick(photo)} 
       />
 
       <p className="photo-list__user-location">{location.city}, {location.country}</p>
@@ -46,7 +45,7 @@ PhotoListItem.propTypes = {
     isFavorite: PropTypes.bool.isRequired,
   }).isRequired,
   toggleFavorite: PropTypes.func.isRequired,
-  onPhotoClick: PropTypes.func.isRequired, // Ensure this prop is required
+  onPhotoClick: PropTypes.func.isRequired,
 };
 
 export default PhotoListItem;

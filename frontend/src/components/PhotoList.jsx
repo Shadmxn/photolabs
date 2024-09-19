@@ -16,7 +16,7 @@ const PhotoList = ({ photos, toggleFavorite, favoritePhotos, onPhotoClick }) => 
             isFavorite: favoritePhotos.includes(photo.id),
           }} 
           toggleFavorite={toggleFavorite}
-          onPhotoClick={onPhotoClick}  // Pass this prop
+          onPhotoClick={onPhotoClick}
         />
       </li>
     ))}
