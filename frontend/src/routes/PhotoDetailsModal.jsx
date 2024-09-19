@@ -5,6 +5,9 @@ import closeSymbol from '../assets/closeSymbol.svg';
 const PhotoDetailsModal = ({ photo, closeModal }) => {
   if (!photo) return null; // Return nothing if no photo is passed
 
+  // Log the photo details
+  console.log(photo);
+
   return (
     <div className="photo-details-modal">
       <button className="photo-details-modal__close-button" onClick={closeModal}>
