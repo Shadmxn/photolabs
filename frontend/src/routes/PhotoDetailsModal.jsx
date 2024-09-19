@@ -1,12 +1,10 @@
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
+import PhotoList from '../components/PhotoList';  // Import PhotoList
 
-const PhotoDetailsModal = ({ photo, closeModal }) => {
+const PhotoDetailsModal = ({ photo, closeModal, similarPhotos }) => {
   if (!photo) return null; // Return nothing if no photo is passed
-
-  // Log the photo details
-  console.log(photo);
 
   return (
     <div className="photo-details-modal">
@@ -14,10 +12,11 @@ const PhotoDetailsModal = ({ photo, closeModal }) => {
         <img src={closeSymbol} alt="close symbol" />
       </button>
 
-      {/* Display the photo information */}
       <img src={photo.imageSource} alt="Large version" className="photo-details-modal__image" />
-      <p>{photo.location.city}, {photo.location.country}</p>
-      <p>Uploaded by: {photo.username}</p>
+      <h2 className="photo-details-modal__header">Similar Photos</h2>
+      
+      {/* Render similar photos */}
+      <PhotoList photos={similarPhotos} />
     </div>
   );
 };
