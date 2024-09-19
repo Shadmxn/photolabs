@@ -19,7 +19,7 @@ const PhotoListItem = ({ photo, toggleFavorite }) => {
 
       <div className="photo-list__fav-container">
         <PhotoFavButton 
-          isFavorite={isFavorite}  // Pass isFavorite state
+          isFavorite={isFavorite}  // Keep this to manage the favorite state
           toggleFavorite={() => toggleFavorite(id)}  // Pass toggleFavorite with photo id
         />
       </div>
@@ -29,7 +29,7 @@ const PhotoListItem = ({ photo, toggleFavorite }) => {
 
 PhotoListItem.propTypes = {
   photo: PropTypes.shape({
-    id: PropTypes.string.isRequired,  // Ensure id is provided
+    id: PropTypes.string.isRequired,
     location: PropTypes.shape({
       city: PropTypes.string.isRequired,
       country: PropTypes.string.isRequired,
