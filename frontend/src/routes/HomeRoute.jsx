@@ -3,7 +3,7 @@ import TopNavigationBar from '../components/TopNavigationBar';
 import PhotoList from '../components/PhotoList';
 import '../styles/HomeRoute.scss';
 
-const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite }) => {
+const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite, onPhotoClick }) => {
   const isFavPhotoExist = favoritePhotos.length > 0; // Check if there are favorited photos
 
   return (
@@ -13,6 +13,7 @@ const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite }) => {
         photos={photos} 
         favoritePhotos={favoritePhotos} 
         toggleFavorite={toggleFavorite} 
+        onPhotoClick={onPhotoClick}  // Pass the onPhotoClick prop here
       />
     </div>
   );
