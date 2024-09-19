@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import HomeRoute from './routes/HomeRoute'; // Ensure correct path
-import photos from './mocks/photos'; // Import the mock photos
-import topics from './mocks/topics'; // Import the mock topics
-import './App.scss'; // Import App styles
+import HomeRoute from './routes/HomeRoute';
+import photos from './mocks/photos';
+import topics from './mocks/topics';
+import './App.scss';
 
 const App = () => {
   const [favoritePhotos, setFavoritePhotos] = useState([]);

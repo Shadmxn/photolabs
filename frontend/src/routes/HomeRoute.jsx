@@ -1,17 +1,17 @@
 import React from 'react';
-import TopNavigationBar from '../components/TopNavigationBar'; // Import TopNavigationBar
-import PhotoList from '../components/PhotoList'; // Import PhotoList
-import '../styles/HomeRoute.scss'; // Import HomeRoute styles
+import TopNavigationBar from '../components/TopNavigationBar';
+import PhotoList from '../components/PhotoList';
+import '../styles/HomeRoute.scss';
 
 const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite }) => {
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} /> {/* Pass topics to TopNavigationBar */}
+      <TopNavigationBar topics={topics} />
       <PhotoList 
         photos={photos} 
         favoritePhotos={favoritePhotos} 
         toggleFavorite={toggleFavorite} 
-      /> {/* Pass photos, favoritePhotos, and toggleFavorite to PhotoList */}
+      />
     </div>
   );
 };

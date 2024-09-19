@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import "../styles/PhotoListItem.scss";
 import PhotoFavButton from './PhotoFavButton';
 
-const PhotoListItem = ({ photo }) => {
-  const { location, imageSource, username, profile } = photo;
+const PhotoListItem = ({ photo, toggleFavorite }) => {
+  const { id, location, imageSource, username, profile, isFavorite } = photo;
 
   return (
     <div className="photo-list__item">
@@ -18,7 +18,10 @@ const PhotoListItem = ({ photo }) => {
       <p className="photo-list__user-location">{location.city}, {location.country}</p>
 
       <div className="photo-list__fav-container">
-        <PhotoFavButton />
+        <PhotoFavButton 
+          isFavorite={isFavorite}  // Pass isFavorite state
+          toggleFavorite={() => toggleFavorite(id)}  // Pass toggleFavorite with photo id
+        />
       </div>
     </div>
   );
@@ -26,6 +29,7 @@ const PhotoListItem = ({ photo }) => {
 
 PhotoListItem.propTypes = {
   photo: PropTypes.shape({
+    id: PropTypes.string.isRequired,  // Ensure id is provided
     location: PropTypes.shape({
       city: PropTypes.string.isRequired,
       country: PropTypes.string.isRequired,
@@ -33,7 +37,9 @@ PhotoListItem.propTypes = {
     imageSource: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     profile: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
   }).isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
 };
 
 export default PhotoListItem;
