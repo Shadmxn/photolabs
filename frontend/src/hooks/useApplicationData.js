@@ -1,90 +1,74 @@
-import { useReducer } from 'react';
+// useApplicationData.js
+import { useReducer, useEffect } from 'react';
+import photos from '../mocks/photos';
+import topics from '../mocks/topics';
 
-export const ACTIONS = {
+const ACTIONS = {
   FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
   FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
   SET_PHOTO_DATA: 'SET_PHOTO_DATA',
   SET_TOPIC_DATA: 'SET_TOPIC_DATA',
   SELECT_PHOTO: 'SELECT_PHOTO',
-  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
+  CLOSE_PHOTO_MODAL: 'CLOSE_PHOTO_MODAL',
 };
 
-// Reducer function
+const initialState = {
+  photos: [],
+  topics: [],
+  favoritePhotos: [],
+  selectedPhoto: null,
+  isModalOpen: false,
+};
+
 function reducer(state, action) {
   switch (action.type) {
+    case ACTIONS.SET_PHOTO_DATA:
+      return { ...state, photos: action.payload.photos };
+    case ACTIONS.SET_TOPIC_DATA:
+      return { ...state, topics: action.payload.topics };
     case ACTIONS.FAV_PHOTO_ADDED:
       return {
         ...state,
-        favoritePhotos: [...state.favoritePhotos, action.photoId]
+        favoritePhotos: [...state.favoritePhotos, action.payload.photoId],
       };
-
     case ACTIONS.FAV_PHOTO_REMOVED:
       return {
         ...state,
-        favoritePhotos: state.favoritePhotos.filter(id => id !== action.photoId)
+        favoritePhotos: state.favoritePhotos.filter(id => id !== action.payload.photoId),
       };
-
-    case ACTIONS.SET_PHOTO_DATA:
-      return {
-        ...state,
-        photos: action.photos
-      };
-
-    case ACTIONS.SET_TOPIC_DATA:
-      return {
-        ...state,
-        topics: action.topics
-      };
-
     case ACTIONS.SELECT_PHOTO:
-      return {
-        ...state,
-        selectedPhoto: action.photo
-      };
-
-    case ACTIONS.DISPLAY_PHOTO_DETAILS:
-      return {
-        ...state,
-        isModalOpen: action.isModalOpen
-      };
-
+      return { ...state, selectedPhoto: action.payload.photo, isModalOpen: true };
+    case ACTIONS.CLOSE_PHOTO_MODAL:
+      return { ...state, selectedPhoto: null, isModalOpen: false };
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      throw new Error(`Unsupported action type: ${action.type}`);
   }
 }
 
-// Custom Hook
-function useApplicationData() {
-  const initialState = {
-    photos: [],
-    topics: [],
-    favoritePhotos: [],
-    selectedPhoto: null,
-    isModalOpen: false
-  };
-
+export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  useEffect(() => {
+    // Load the photos and topics data (from the mocks in this case)
+    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: { photos } });
+    dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: { topics } });
+  }, []);
+
   const updateToFavPhotoIds = (photoId) => {
-    if (state.favoritePhotos.includes(photoId)) {
-      dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, photoId });
+    const isFavorite = state.favoritePhotos.includes(photoId);
+    if (isFavorite) {
+      dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: { photoId } });
     } else {
-      dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, photoId });
+      dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, payload: { photoId } });
     }
   };
 
   const onPhotoSelect = (photo) => {
-    dispatch({ type: ACTIONS.SELECT_PHOTO, photo });
-    dispatch({ type: ACTIONS.DISPLAY_PHOTO_DETAILS, isModalOpen: true });
+    dispatch({ type: ACTIONS.SELECT_PHOTO, payload: { photo } });
   };
 
   const onClosePhotoDetailsModal = () => {
-    dispatch({ type: ACTIONS.DISPLAY_PHOTO_DETAILS, isModalOpen: false });
-  };
-
-  const onLoadTopic = (photos, topics) => {
-    dispatch({ type: ACTIONS.SET_PHOTO_DATA, photos });
-    dispatch({ type: ACTIONS.SET_TOPIC_DATA, topics });
+    dispatch({ type: ACTIONS.CLOSE_PHOTO_MODAL });
   };
 
   return {
@@ -92,8 +76,5 @@ function useApplicationData() {
     updateToFavPhotoIds,
     onPhotoSelect,
     onClosePhotoDetailsModal,
-    onLoadTopic
   };
 }
-
-export default useApplicationData;

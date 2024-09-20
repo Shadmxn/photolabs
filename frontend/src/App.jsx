@@ -11,26 +11,25 @@ const App = () => {
     updateToFavPhotoIds,
     onPhotoSelect,
     onClosePhotoDetailsModal,
-    onLoadTopic,
   } = useApplicationData();
 
   return (
     <div className="App">
-      <HomeRoute
-        photos={state.photos}
-        topics={state.topics}
-        favoritePhotos={state.favoritePhotos}
-        toggleFavorite={updateToFavPhotoIds}
-        onPhotoClick={onPhotoSelect}
+      <HomeRoute 
+        photos={state.photos} 
+        topics={state.topics} 
+        favoritePhotos={state.favoritePhotos} 
+        toggleFavorite={updateToFavPhotoIds} 
+        onPhotoClick={onPhotoSelect} 
       />
 
       {state.isModalOpen && (
-        <PhotoDetailsModal
-          photo={state.selectedPhoto}
-          similarPhotos={state.selectedPhoto?.similarPhotos || []}
-          closeModal={onClosePhotoDetailsModal}
-          favoritePhotos={state.favoritePhotos}
-          toggleFavorite={updateToFavPhotoIds}
+        <PhotoDetailsModal 
+          photo={state.selectedPhoto}  
+          similarPhotos={state.selectedPhoto?.similarPhotos || []} 
+          closeModal={onClosePhotoDetailsModal}  
+          favoritePhotos={state.favoritePhotos} 
+          toggleFavorite={updateToFavPhotoIds} 
         />
       )}
     </div>

@@ -2,33 +2,36 @@
   background-color: white;
   box-shadow: 0 0 0 50vmax rgba(0, 0, 0, 0.5);
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll;
+  top: 50%; // Center the modal vertically
+  left: 50%; // Center the modal horizontally
+  transform: translate(-50%, -50%); // Adjust positioning
+  max-height: 90%; // Limit maximum height
+  max-width: 80%; // Limit maximum width
+  overflow-y: auto; // Enable scrolling if content overflows
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px; // Add padding for spacing
 }
 
 .photo-details-modal__close-button {
   background-color: transparent;
   border: none;
-  color: #1e1e1e;
+  color: #1e1e1e; // Ensure it's visible
   text-align: center;
   font-size: 24px;
   cursor: pointer;
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 10;
+  position: absolute; // Keep it absolute for positioning
+  top: 16px; // Adjust as needed
+  right: 16px; // Change left to right to position it at the top-right
+  z-index: 10; // Ensure it's on top of other elements
 }
 
 .photo-details-modal__image-container {
-  position: relative; // Set to relative for absolute positioning of the button
+  position: relative; // Keep this for the button positioning
+  margin-top: 24px; // Add margin to create space above the image
 }
 
 .photo-details-modal__image {
