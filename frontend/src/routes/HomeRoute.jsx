@@ -1,4 +1,3 @@
-// HomeRoute.jsx
 import React from 'react';
 import TopNavigationBar from '../components/TopNavigationBar';
 import PhotoList from '../components/PhotoList';
@@ -9,12 +8,12 @@ const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite, onPhotoClic
 
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} isFavPhotoExist={isFavPhotoExist} /> {/* Pass the new prop */}
+      <TopNavigationBar topics={topics} isFavPhotoExist={isFavPhotoExist} />
       <PhotoList 
         photos={photos} 
         favoritePhotos={favoritePhotos} 
         toggleFavorite={toggleFavorite} 
-        onPhotoClick={onPhotoClick}  // Pass the onPhotoClick prop here
+        onPhotoClick={onPhotoClick}  
       />
     </div>
   );
