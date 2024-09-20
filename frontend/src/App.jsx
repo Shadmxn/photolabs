@@ -1,34 +1,36 @@
+// App.jsx
 import React from 'react';
 import HomeRoute from './routes/HomeRoute';
 import PhotoDetailsModal from './routes/PhotoDetailsModal';
-import useApplicationData from './hooks/useApplicationData'; // Import the custom hook
+import useApplicationData from './hooks/useApplicationData';
 import './App.scss';
 
 const App = () => {
   const {
     state,
-    toggleFavorite,
-    openModal,
-    closeModal,
+    updateToFavPhotoIds,
+    onPhotoSelect,
+    onClosePhotoDetailsModal,
+    onLoadTopic,
   } = useApplicationData();
 
   return (
     <div className="App">
-      <HomeRoute 
-        photos={state.photos} 
-        topics={state.topics} 
-        favoritePhotos={state.favoritePhotos} 
-        toggleFavorite={toggleFavorite} 
-        onPhotoClick={openModal} 
+      <HomeRoute
+        photos={state.photos}
+        topics={state.topics}
+        favoritePhotos={state.favoritePhotos}
+        toggleFavorite={updateToFavPhotoIds}
+        onPhotoClick={onPhotoSelect}
       />
 
       {state.isModalOpen && (
-        <PhotoDetailsModal 
-          photo={state.selectedPhoto}  
-          similarPhotos={state.selectedPhoto?.similarPhotos || []} // Safeguard
-          closeModal={closeModal}  
-          favoritePhotos={state.favoritePhotos} // Pass favoritePhotos
-          toggleFavorite={toggleFavorite} // Pass toggleFavorite
+        <PhotoDetailsModal
+          photo={state.selectedPhoto}
+          similarPhotos={state.selectedPhoto?.similarPhotos || []}
+          closeModal={onClosePhotoDetailsModal}
+          favoritePhotos={state.favoritePhotos}
+          toggleFavorite={updateToFavPhotoIds}
         />
       )}
     </div>
