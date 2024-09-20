@@ -1,50 +1,33 @@
-// App.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import HomeRoute from './routes/HomeRoute';
-import PhotoDetailsModal from './routes/PhotoDetailsModal';  
-import photos from './mocks/photos';
-import topics from './mocks/topics';
+import PhotoDetailsModal from './routes/PhotoDetailsModal';
+import useApplicationData from './hooks/useApplicationData'; // Import the custom hook
 import './App.scss';
 
 const App = () => {
-  const [favoritePhotos, setFavoritePhotos] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const toggleFavorite = (photoId) => {
-    setFavoritePhotos((prevFavorites) => 
-      prevFavorites.includes(photoId) 
-        ? prevFavorites.filter(id => id !== photoId) 
-        : [...prevFavorites, photoId]
-    );
-  };
-
-  const openModal = (photo) => {
-    setSelectedPhoto(photo);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedPhoto(null);
-    setIsModalOpen(false);
-  };
+  const {
+    state,
+    toggleFavorite,
+    openModal,
+    closeModal,
+  } = useApplicationData();
 
   return (
     <div className="App">
       <HomeRoute 
-        photos={photos} 
-        topics={topics} 
-        favoritePhotos={favoritePhotos} 
+        photos={state.photos} 
+        topics={state.topics} 
+        favoritePhotos={state.favoritePhotos} 
         toggleFavorite={toggleFavorite} 
         onPhotoClick={openModal} 
       />
 
-      {isModalOpen && (
+      {state.isModalOpen && (
         <PhotoDetailsModal 
-          photo={selectedPhoto}  
-          similarPhotos={selectedPhoto?.similarPhotos || []}  // Safeguard
+          photo={state.selectedPhoto}  
+          similarPhotos={state.selectedPhoto?.similarPhotos || []} // Safeguard
           closeModal={closeModal}  
-          favoritePhotos={favoritePhotos} // Pass favoritePhotos
+          favoritePhotos={state.favoritePhotos} // Pass favoritePhotos
           toggleFavorite={toggleFavorite} // Pass toggleFavorite
         />
       )}
