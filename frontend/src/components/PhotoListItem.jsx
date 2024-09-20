@@ -1,3 +1,4 @@
+// PhotoListItem.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import "../styles/PhotoListItem.scss";
@@ -25,7 +26,10 @@ const PhotoListItem = ({ photo, toggleFavorite, onPhotoClick }) => {
       <div className="photo-list__fav-container">
         <PhotoFavButton 
           isFavorite={isFavorite} 
-          toggleFavorite={() => toggleFavorite(id)} 
+          toggleFavorite={() => {
+            toggleFavorite(id);
+            console.log(`Favorite state changed for photo ID: ${id}`); // Log for testing
+          }} 
         />
       </div>
     </div>

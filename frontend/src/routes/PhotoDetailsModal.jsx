@@ -1,12 +1,11 @@
+// PhotoDetailsModal.jsx
 import React from 'react';
 import '../styles/PhotoDetailsModal.scss';
 import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoList from '../components/PhotoList'; // Adjust the path accordingly
+import PhotoList from '../components/PhotoList';
 
-const PhotoDetailsModal = ({ photo, similarPhotos, closeModal }) => {
+const PhotoDetailsModal = ({ photo, similarPhotos, closeModal, favoritePhotos, toggleFavorite }) => {
   if (!photo) return null;
-
-  console.log("Selected Photo:", photo); // Log for debugging
 
   return (
     <div className="photo-details-modal">
@@ -20,7 +19,11 @@ const PhotoDetailsModal = ({ photo, similarPhotos, closeModal }) => {
 
       <div className="photo-details-modal__similar-photos">
         <h3>Similar Photos</h3>
-        <PhotoList photos={Array.isArray(similarPhotos) ? similarPhotos : []} /> {/* Safeguard */}
+        <PhotoList 
+          photos={Array.isArray(similarPhotos) ? similarPhotos : []} 
+          favoritePhotos={favoritePhotos} // Pass favoritePhotos
+          toggleFavorite={toggleFavorite}   // Pass toggleFavorite
+        />
       </div>
     </div>
   );

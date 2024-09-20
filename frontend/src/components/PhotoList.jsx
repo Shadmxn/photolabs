@@ -1,4 +1,4 @@
-// src/components/PhotoList.jsx
+// PhotoList.jsx
 import React from 'react';
 import PhotoListItem from './PhotoListItem';
 import '../styles/PhotoList.scss';
@@ -14,13 +14,13 @@ const PhotoList = ({ photos, toggleFavorite, favoritePhotos, onPhotoClick }) => 
             photo={{
               id: photo.id,
               location: photo.location,
-              imageSource: photo.urls.regular, // Adjusted to use the correct image source
+              imageSource: photo.urls.regular,
               username: photo.user.username,
               profile: photo.user.profile,
               isFavorite: favoritePhotos.includes(photo.id),
             }} 
             toggleFavorite={toggleFavorite}
-            onPhotoClick={onPhotoClick} // Pass onPhotoClick for modal functionality
+            onPhotoClick={onPhotoClick} 
           />
         </li>
       ))}

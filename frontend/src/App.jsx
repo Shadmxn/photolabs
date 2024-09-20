@@ -1,6 +1,7 @@
+// App.jsx
 import React, { useState } from 'react';
 import HomeRoute from './routes/HomeRoute';
-import PhotoDetailsModal from './routes/PhotoDetailsModal';  // Import the modal
+import PhotoDetailsModal from './routes/PhotoDetailsModal';  
 import photos from './mocks/photos';
 import topics from './mocks/topics';
 import './App.scss';
@@ -43,6 +44,8 @@ const App = () => {
           photo={selectedPhoto}  
           similarPhotos={selectedPhoto?.similarPhotos || []}  // Safeguard
           closeModal={closeModal}  
+          favoritePhotos={favoritePhotos} // Pass favoritePhotos
+          toggleFavorite={toggleFavorite} // Pass toggleFavorite
         />
       )}
     </div>
