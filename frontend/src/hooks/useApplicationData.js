@@ -1,62 +1,80 @@
+// useApplicationData.js
 import { useReducer, useEffect } from 'react';
+import photos from '../mocks/photos';
+import topics from '../mocks/topics';
 
-export const ACTIONS = {
+const ACTIONS = {
   FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
   FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
   SET_PHOTO_DATA: 'SET_PHOTO_DATA',
   SET_TOPIC_DATA: 'SET_TOPIC_DATA',
   SELECT_PHOTO: 'SELECT_PHOTO',
-  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS',
+  CLOSE_PHOTO_MODAL: 'CLOSE_PHOTO_MODAL',
 };
 
 const initialState = {
+  photos: [],
+  topics: [],
   favoritePhotos: [],
   selectedPhoto: null,
-  photoData: [],
-  topicData: [],
+  isModalOpen: false,
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_PHOTO_DATA:
-      return { ...state, photoData: action.payload };
+      return { ...state, photos: action.payload.photos };
     case ACTIONS.SET_TOPIC_DATA:
-      return { ...state, topicData: action.payload };
+      return { ...state, topics: action.payload.topics };
     case ACTIONS.FAV_PHOTO_ADDED:
-      return { ...state, favoritePhotos: [...state.favoritePhotos, action.payload] };
+      return {
+        ...state,
+        favoritePhotos: [...state.favoritePhotos, action.payload.photoId],
+      };
     case ACTIONS.FAV_PHOTO_REMOVED:
-      return { ...state, favoritePhotos: state.favoritePhotos.filter(id => id !== action.payload) };
+      return {
+        ...state,
+        favoritePhotos: state.favoritePhotos.filter(id => id !== action.payload.photoId),
+      };
     case ACTIONS.SELECT_PHOTO:
-      return { ...state, selectedPhoto: action.payload };
-    // Add other cases as needed
+      return { ...state, selectedPhoto: action.payload.photo, isModalOpen: true };
+    case ACTIONS.CLOSE_PHOTO_MODAL:
+      return { ...state, selectedPhoto: null, isModalOpen: false };
     default:
-      throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
+      throw new Error(`Unsupported action type: ${action.type}`);
   }
 }
 
-const useApplicationData = () => {
+export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    fetch("/api/photos")
-      .then(response => response.json())
-      .then(data => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
+    // Load the photos and topics data (from the mocks in this case)
+    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: { photos } });
+    dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: { topics } });
   }, []);
 
-  useEffect(() => {
-    fetch("/api/topics")
-      .then(response => response.json())
-      .then(data => dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data }));
-  }, []);
-
-  const toggleFavorite = (photoId) => {
-    const actionType = state.favoritePhotos.includes(photoId)
-      ? ACTIONS.FAV_PHOTO_REMOVED
-      : ACTIONS.FAV_PHOTO_ADDED;
-    dispatch({ type: actionType, payload: photoId });
+  const updateToFavPhotoIds = (photoId) => {
+    const isFavorite = state.favoritePhotos.includes(photoId);
+    if (isFavorite) {
+      dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: { photoId } });
+    } else {
+      dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, payload: { photoId } });
+    }
   };
 
-  return { state, toggleFavorite };
-};
+  const onPhotoSelect = (photo) => {
+    dispatch({ type: ACTIONS.SELECT_PHOTO, payload: { photo } });
+  };
 
-export default useApplicationData;
+  const onClosePhotoDetailsModal = () => {
+    dispatch({ type: ACTIONS.CLOSE_PHOTO_MODAL });
+  };
+
+  return {
+    state,
+    updateToFavPhotoIds,
+    onPhotoSelect,
+    onClosePhotoDetailsModal,
+  };
+}

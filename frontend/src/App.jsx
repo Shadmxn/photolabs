@@ -1,41 +1,35 @@
+// App.jsx
 import React from 'react';
 import HomeRoute from './routes/HomeRoute';
-import PhotoDetailsModal from './routes/PhotoDetailsModal';  
+import PhotoDetailsModal from './routes/PhotoDetailsModal';
 import useApplicationData from './hooks/useApplicationData';
 import './App.scss';
 
 const App = () => {
-  const { state, toggleFavorite } = useApplicationData();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [selectedPhoto, setSelectedPhoto] = React.useState(null);
-
-  const openModal = (photo) => {
-    setSelectedPhoto(photo);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedPhoto(null);
-    setIsModalOpen(false);
-  };
+  const {
+    state,
+    updateToFavPhotoIds,
+    onPhotoSelect,
+    onClosePhotoDetailsModal,
+  } = useApplicationData();
 
   return (
     <div className="App">
       <HomeRoute 
-        photos={state.photoData} 
-        topics={state.topicData} 
+        photos={state.photos} 
+        topics={state.topics} 
         favoritePhotos={state.favoritePhotos} 
-        toggleFavorite={toggleFavorite} 
-        onPhotoClick={openModal} 
+        toggleFavorite={updateToFavPhotoIds} 
+        onPhotoClick={onPhotoSelect} 
       />
 
-      {isModalOpen && (
+      {state.isModalOpen && (
         <PhotoDetailsModal 
-          photo={selectedPhoto}  
-          similarPhotos={selectedPhoto?.similarPhotos || []} 
-          closeModal={closeModal}  
+          photo={state.selectedPhoto}  
+          similarPhotos={state.selectedPhoto?.similarPhotos || []} 
+          closeModal={onClosePhotoDetailsModal}  
           favoritePhotos={state.favoritePhotos} 
-          toggleFavorite={toggleFavorite} 
+          toggleFavorite={updateToFavPhotoIds} 
         />
       )}
     </div>
