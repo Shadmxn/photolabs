@@ -1,80 +1,78 @@
-// useApplicationData.js
 import { useReducer, useEffect } from 'react';
-import photos from '../mocks/photos';
-import topics from '../mocks/topics';
 
-const ACTIONS = {
-  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
-  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
-  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
-  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
-  SELECT_PHOTO: 'SELECT_PHOTO',
-  CLOSE_PHOTO_MODAL: 'CLOSE_PHOTO_MODAL',
-};
-
+// Define your initial state
 const initialState = {
-  photos: [],
-  topics: [],
-  favoritePhotos: [],
-  selectedPhoto: null,
-  isModalOpen: false,
+    photoData: [],
+    topicData: [],
+    favoritePhotos: [],
+    selectedPhoto: null,
+    isModalOpen: false,
+    // ... other state variables as needed
 };
 
+// Define your action types
+const ACTIONS = {
+    SET_PHOTO_DATA: 'SET_PHOTO_DATA',
+    SET_TOPIC_DATA: 'SET_TOPIC_DATA',
+    TOGGLE_FAVORITE: 'TOGGLE_FAVORITE',
+    SELECT_PHOTO: 'SELECT_PHOTO',
+    CLOSE_MODAL: 'CLOSE_MODAL',
+    // ... other actions as needed
+};
+
+// Your reducer function
 function reducer(state, action) {
-  switch (action.type) {
-    case ACTIONS.SET_PHOTO_DATA:
-      return { ...state, photos: action.payload.photos };
-    case ACTIONS.SET_TOPIC_DATA:
-      return { ...state, topics: action.payload.topics };
-    case ACTIONS.FAV_PHOTO_ADDED:
-      return {
-        ...state,
-        favoritePhotos: [...state.favoritePhotos, action.payload.photoId],
-      };
-    case ACTIONS.FAV_PHOTO_REMOVED:
-      return {
-        ...state,
-        favoritePhotos: state.favoritePhotos.filter(id => id !== action.payload.photoId),
-      };
-    case ACTIONS.SELECT_PHOTO:
-      return { ...state, selectedPhoto: action.payload.photo, isModalOpen: true };
-    case ACTIONS.CLOSE_PHOTO_MODAL:
-      return { ...state, selectedPhoto: null, isModalOpen: false };
-    default:
-      throw new Error(`Unsupported action type: ${action.type}`);
-  }
+    switch (action.type) {
+        case 'SET_PHOTO_DATA':
+            return { ...state, photoData: action.payload };
+        case 'SET_TOPIC_DATA':
+            return { ...state, topicData: action.payload };
+        case 'TOGGLE_FAVORITE':
+            return {
+                ...state,
+                favoritePhotos: state.favoritePhotos.includes(action.payload)
+                    ? state.favoritePhotos.filter(id => id !== action.payload)
+                    : [...state.favoritePhotos, action.payload],
+            };
+        case 'SELECT_PHOTO':
+            return { ...state, selectedPhoto: action.payload, isModalOpen: true };
+        case 'CLOSE_MODAL':
+            return { ...state, isModalOpen: false, selectedPhoto: null };
+        // ... other cases as needed
+        default:
+            return state;
+    }
 }
 
+// Custom hook
 export default function useApplicationData() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    // Load the photos and topics data (from the mocks in this case)
-    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: { photos } });
-    dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: { topics } });
-  }, []);
+    useEffect(() => {
+        fetch("/api/photos")
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data });
+            });
 
-  const updateToFavPhotoIds = (photoId) => {
-    const isFavorite = state.favoritePhotos.includes(photoId);
-    if (isFavorite) {
-      dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: { photoId } });
-    } else {
-      dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, payload: { photoId } });
-    }
-  };
+        fetch("/api/topics") // Fetch topic data similarly
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data });
+            });
+    }, []);
 
-  const onPhotoSelect = (photo) => {
-    dispatch({ type: ACTIONS.SELECT_PHOTO, payload: { photo } });
-  };
+    const updateToFavPhotoIds = (photoId) => {
+        dispatch({ type: ACTIONS.TOGGLE_FAVORITE, payload: photoId });
+    };
 
-  const onClosePhotoDetailsModal = () => {
-    dispatch({ type: ACTIONS.CLOSE_PHOTO_MODAL });
-  };
+    const onPhotoSelect = (photo) => {
+        dispatch({ type: ACTIONS.SELECT_PHOTO, payload: photo });
+    };
 
-  return {
-    state,
-    updateToFavPhotoIds,
-    onPhotoSelect,
-    onClosePhotoDetailsModal,
-  };
+    const onClosePhotoDetailsModal = () => {
+        dispatch({ type: ACTIONS.CLOSE_MODAL });
+    };
+
+    return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal };
 }
