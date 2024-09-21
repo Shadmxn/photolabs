@@ -12,7 +12,7 @@ const PhotoList = ({ photos, toggleFavorite, favoritePhotos, onPhotoClick }) => 
         <li key={photo.id}>
           <PhotoListItem 
             photo={{
-              id: photo.id,
+              id: String(photo.id),
               location: photo.location,
               imageSource: photo.urls.regular,
               username: photo.user.username,
