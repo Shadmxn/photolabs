@@ -21,7 +21,7 @@ const App = () => {
         favoritePhotos={state.favoritePhotos}
         toggleFavorite={updateToFavPhotoIds} 
         onPhotoClick={onPhotoSelect} 
-        onTopicClick={onTopicClick} // Pass it down
+        onTopicClick={onTopicClick}
       />
 
       {state.isModalOpen && (

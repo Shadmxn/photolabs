@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react';
 
-// Define your initial state
+// initial state
 const initialState = {
     photoData: [],
     topicData: [],
@@ -9,7 +9,7 @@ const initialState = {
     isModalOpen: false,
 };
 
-// Define your action types
+// action types
 const ACTIONS = {
     SET_PHOTO_DATA: 'SET_PHOTO_DATA',
     SET_TOPIC_DATA: 'SET_TOPIC_DATA',
@@ -18,7 +18,7 @@ const ACTIONS = {
     CLOSE_MODAL: 'CLOSE_MODAL',
 };
 
-// Your reducer function
+// reducer function
 function reducer(state, action) {
     switch (action.type) {
         case ACTIONS.SET_PHOTO_DATA:

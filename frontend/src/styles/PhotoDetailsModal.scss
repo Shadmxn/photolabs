@@ -18,18 +18,18 @@
 .photo-details-modal__close-button {
   background-color: transparent;
   border: none;
-  color: #1e1e1e; // Ensure it's visible
+  color: #1e1e1e;
   text-align: center;
   font-size: 24px;
   cursor: pointer;
-  position: absolute; // Keep it absolute for positioning
-  top: 16px; // Adjust as needed
+  position: absolute;
+  top: 16px;
   right: 16px; // Change left to right to position it at the top-right
-  z-index: 10; // Ensure it's on top of other elements
+  z-index: 10;
 }
 
 .photo-details-modal__image-container {
-  position: relative; // Keep this for the button positioning
+  position: relative;
   margin: 24px 0; // Adjust margin to create space above and below the image
 }
 
