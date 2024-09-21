@@ -16,6 +16,18 @@
   width: 300px;
   height: 200px;
   object-fit: cover;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: transform 0.3s ease; /* Smooth scaling transition */
+}
+
+.photo-list__image {
+  border-radius: 8px 8px 0px 0px;
+  user-select: none;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: transform 0.3s ease; /* Smooth scaling transition */
 }
 
 .photo-list__user-profile {
