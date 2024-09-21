@@ -3,12 +3,12 @@ import TopNavigationBar from '../components/TopNavigationBar';
 import PhotoList from '../components/PhotoList';
 import '../styles/HomeRoute.scss';
 
-const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite, onPhotoClick }) => {
-  const isFavPhotoExist = favoritePhotos.length > 0; // Check if there are favorited photos
+const HomeRoute = ({ photos, topics, favoritePhotos, toggleFavorite, onPhotoClick, onTopicClick }) => {
+  const isFavPhotoExist = favoritePhotos.length > 0;
 
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} isFavPhotoExist={isFavPhotoExist} />
+      <TopNavigationBar topics={topics} isFavPhotoExist={isFavPhotoExist} onTopicClick={onTopicClick} />
       <PhotoList 
         photos={photos} 
         favoritePhotos={favoritePhotos} 

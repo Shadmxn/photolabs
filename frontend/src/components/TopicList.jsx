@@ -2,11 +2,11 @@ import React from 'react';
 import TopicListItem from './TopicListItem';
 import '../styles/TopicList.scss';
 
-const TopicList = ({ topics }) => {
+const TopicList = ({ topics, onTopicClick }) => {
   return (
-    <div className="topic-list" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}> {/* Inline styles to ensure flex behavior */}
+    <div className="topic-list" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
       {topics.map(topic => (
-        <TopicListItem key={topic.id} topic={topic} />
+        <TopicListItem key={topic.id} topic={topic} onTopicClick={onTopicClick} />
       ))}
     </div>
   );

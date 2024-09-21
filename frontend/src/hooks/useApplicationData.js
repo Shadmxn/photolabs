@@ -7,7 +7,6 @@ const initialState = {
     favoritePhotos: [],
     selectedPhoto: null,
     isModalOpen: false,
-    // ... other state variables as needed
 };
 
 // Define your action types
@@ -17,28 +16,26 @@ const ACTIONS = {
     TOGGLE_FAVORITE: 'TOGGLE_FAVORITE',
     SELECT_PHOTO: 'SELECT_PHOTO',
     CLOSE_MODAL: 'CLOSE_MODAL',
-    // ... other actions as needed
 };
 
 // Your reducer function
 function reducer(state, action) {
     switch (action.type) {
-        case 'SET_PHOTO_DATA':
+        case ACTIONS.SET_PHOTO_DATA:
             return { ...state, photoData: action.payload };
-        case 'SET_TOPIC_DATA':
+        case ACTIONS.SET_TOPIC_DATA:
             return { ...state, topicData: action.payload };
-        case 'TOGGLE_FAVORITE':
+        case ACTIONS.TOGGLE_FAVORITE:
             return {
                 ...state,
                 favoritePhotos: state.favoritePhotos.includes(action.payload)
                     ? state.favoritePhotos.filter(id => id !== action.payload)
                     : [...state.favoritePhotos, action.payload],
             };
-        case 'SELECT_PHOTO':
+        case ACTIONS.SELECT_PHOTO:
             return { ...state, selectedPhoto: action.payload, isModalOpen: true };
-        case 'CLOSE_MODAL':
+        case ACTIONS.CLOSE_MODAL:
             return { ...state, isModalOpen: false, selectedPhoto: null };
-        // ... other cases as needed
         default:
             return state;
     }
@@ -55,7 +52,7 @@ export default function useApplicationData() {
                 dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data });
             });
 
-        fetch("/api/topics") // Fetch topic data similarly
+        fetch("/api/topics")
             .then((response) => response.json())
             .then((data) => {
                 dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data });
@@ -74,5 +71,20 @@ export default function useApplicationData() {
         dispatch({ type: ACTIONS.CLOSE_MODAL });
     };
 
-    return { state, updateToFavPhotoIds, onPhotoSelect, onClosePhotoDetailsModal };
+    // Function to handle topic selection
+    const onTopicClick = (topicId) => {
+        fetch(`/api/topics/photos/${topicId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data });
+            });
+    };
+
+    return { 
+        state, 
+        updateToFavPhotoIds, 
+        onPhotoSelect, 
+        onClosePhotoDetailsModal, 
+        onTopicClick // Return the onTopicClick function
+    };
 }
