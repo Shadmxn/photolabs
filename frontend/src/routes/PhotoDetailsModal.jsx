@@ -4,7 +4,7 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoList from '../components/PhotoList';
 import PhotoFavButton from '../components/PhotoFavButton';
 
-const PhotoDetailsModal = ({ photo, similarPhotos, closeModal, favoritePhotos, toggleFavorite }) => {
+const PhotoDetailsModal = ({ photo, closeModal, favoritePhotos, toggleFavorite }) => {
   if (!photo) return null;
 
   const isFavorite = favoritePhotos.includes(photo.id);
@@ -28,7 +28,12 @@ const PhotoDetailsModal = ({ photo, similarPhotos, closeModal, favoritePhotos, t
 
       <div className="photo-details-modal__similar-photos">
         <h3>Similar Photos</h3>
-        <PhotoList photos={Array.isArray(similarPhotos) ? similarPhotos : []} />
+        <PhotoList 
+          photos={Array.isArray(photo.similar_photos) ? photo.similar_photos : []} 
+          toggleFavorite={toggleFavorite} // Pass toggleFavorite
+          favoritePhotos={favoritePhotos} // Pass favoritePhotos
+          onPhotoClick={closeModal} // Handle click for enlarging photo
+        />
       </div>
     </div>
   );

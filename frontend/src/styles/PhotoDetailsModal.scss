@@ -12,7 +12,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px; // Add padding for spacing
 }
 
@@ -31,11 +30,13 @@
 
 .photo-details-modal__image-container {
   position: relative; // Keep this for the button positioning
-  margin-top: 24px; // Add margin to create space above the image
+  margin: 24px 0; // Adjust margin to create space above and below the image
 }
 
 .photo-details-modal__image {
   max-width: 95%;
+  max-height: 70vh; // Prevents image from exceeding viewport height
+  object-fit: contain; // Ensures the image maintains its aspect ratio
   border-radius: 8px;
 }
 

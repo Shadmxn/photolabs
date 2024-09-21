@@ -18,7 +18,7 @@ const App = () => {
       <HomeRoute 
         photos={state.photoData}
         topics={state.topicData}
-        favoritePhotos={state.favoritePhotos} 
+        favoritePhotos={state.favoritePhotos}
         toggleFavorite={updateToFavPhotoIds} 
         onPhotoClick={onPhotoSelect} 
         onTopicClick={onTopicClick} // Pass it down
